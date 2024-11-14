@@ -17,6 +17,12 @@ router.get(
   authMiddleWere.authorizeRoles("user"),
   casinoController.getCasinoByOwner
 );
+router.put(
+  "/update/:casinoId",
+  authMiddleWere.isAuthenticateUser,
+  authMiddleWere.authorizeRoles("user"),
+  casinoController.updateCasino
+);
 
 const casinoRoute = router;
 

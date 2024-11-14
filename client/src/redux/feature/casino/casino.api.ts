@@ -21,7 +21,21 @@ const bankApi = api.injectEndpoints({
       }),
       invalidatesTags: ["casino"],
     }),
+    updateCasinoById: builder.mutation<
+      { data: ICasaino },
+      {
+        id: string;
+        payload: Partial<ICasaino>;
+      }
+    >({
+      query: ({ id, payload }) => ({
+        url: `/casino/update/${id}`,
+        method: "PUT",
+        body: payload,
+      }),
+      invalidatesTags: ["casino"],
+    }),
   }),
 });
 
-export const { useGetOwnerCasinoInfoQuery, useCreateCasinoMutation } = bankApi;
+export const { useGetOwnerCasinoInfoQuery, useCreateCasinoMutation,useUpdateCasinoByIdMutation } = bankApi;

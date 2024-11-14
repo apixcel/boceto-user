@@ -1,14 +1,26 @@
 import { useGetOwnerCasinoInfoQuery } from "@/redux/feature/casino/casino.api";
+import { ICasaino } from "@/types/casino";
+import Loader from "@/utils/Loader";
 import { IChildProps } from "@/view/CasinoView";
 import { formatDate } from "date-fns";
 import React from "react";
+import { FaRegTrashAlt } from "react-icons/fa";
+import { MdOutlineModeEditOutline } from "react-icons/md";
 import SectionHeading from "../ui/SectionHeading";
 import CasinoStatusBadge from "./CasinoStatusBadge";
 
-const DisplayCasinoInfo: React.FC<IChildProps> = ({ setViewMode }) => {
+interface IProps extends IChildProps {
+  setSelectedCasino: React.Dispatch<React.SetStateAction<ICasaino | null>>;
+}
+
+const DisplayCasinoInfo: React.FC<IProps> = ({
+  setViewMode,
+  setSelectedCasino,
+}) => {
   const { data, isFetching } = useGetOwnerCasinoInfoQuery(undefined);
+
   if (isFetching) {
-    return "loading...";
+    return <Loader />;
   }
   console.log(data?.data);
 
@@ -23,10 +35,15 @@ const DisplayCasinoInfo: React.FC<IChildProps> = ({ setViewMode }) => {
     );
   }
 
+  const handleEditCasino = () => {
+    setViewMode("edit");
+    setSelectedCasino(data?.data);
+  };
+
   return (
     <>
       <SectionHeading title="Tu casino" />
-      <div className="bg-white w-[50%] p-[15px] mt-[20px]">
+      <div className="bg-white min-w-[50%] p-[15px] mt-[20px] rounded-[10px]">
         <h4 className="text-[28px] font-[700]">{data?.data?.name}</h4>
         <p className="text-[14px] text-[#383838]">
           {formatDate(
@@ -47,6 +64,18 @@ const DisplayCasinoInfo: React.FC<IChildProps> = ({ setViewMode }) => {
             <span className="font-[600]">Status: </span>
             <CasinoStatusBadge status={data?.data?.status || "pending"} />
           </p>
+        </div>
+
+        <div className="flex items-start gap-[20px] mt-[25px]">
+          <button className="text-[22px] text-red-500">
+            <FaRegTrashAlt />
+          </button>
+          <button
+            className="text-[22px] text-main"
+            onClick={() => handleEditCasino()}
+          >
+            <MdOutlineModeEditOutline />
+          </button>
         </div>
       </div>
     </>
