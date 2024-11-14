@@ -18,8 +18,20 @@ const createCasino = catchAsyncError(async (req, res) => {
     message: "Casino created successfully",
   });
 });
+const getCasinoByOwner = catchAsyncError(async (req, res) => {
+  const user = req.user!;
+  const casino = await Casino.findOne({ owner: user._id });
+
+  sendResponse(res, {
+    success: true,
+    statusCode: 200,
+    data: casino,
+    message: "Casino found successfully",
+  });
+});
 
 const casinoController = {
   createCasino,
+  getCasinoByOwner
 };
-export default casinoController
+export default casinoController;

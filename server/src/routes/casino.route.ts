@@ -11,6 +11,13 @@ router.post(
   authMiddleWere.authorizeRoles("user"),
   casinoController.createCasino
 );
+router.get(
+  "/get",
+  authMiddleWere.isAuthenticateUser,
+  authMiddleWere.authorizeRoles("user"),
+  casinoController.getCasinoByOwner
+);
+
 const casinoRoute = router;
 
 export default casinoRoute;
