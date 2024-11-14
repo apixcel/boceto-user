@@ -10,7 +10,18 @@ const bankApi = api.injectEndpoints({
       }),
       providesTags: ["casino"],
     }),
+    createCasino: builder.mutation<
+      { data: ICasaino | null },
+      Pick<ICasaino, "name" | "status">
+    >({
+      query: (payload) => ({
+        url: `/casino/create`,
+        method: "POST",
+        body: payload,
+      }),
+      invalidatesTags: ["casino"],
+    }),
   }),
 });
 
-export const { useGetOwnerCasinoInfoQuery } = bankApi;
+export const { useGetOwnerCasinoInfoQuery, useCreateCasinoMutation } = bankApi;

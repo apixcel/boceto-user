@@ -4,7 +4,11 @@ const CasinoSchema = new mongoose.Schema(
   {
     name: { type: String, required: true },
     dueDate: { type: Date, required: true },
-    status: { type: String, required: true },
+    status: {
+      type: String,
+      enum: ["pending", "active", "closed"],
+      required: true,
+    },
     owner: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
