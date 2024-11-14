@@ -19,6 +19,7 @@ const LogoSelector = () => {
             limit={1}
             onUploadChange={(itemFiles) => setFiles(itemFiles)}
           />
+          <button>Save</button>
         </div>
       </div>
       <div className="flex items-start justify-start gap-[10px]">

@@ -14,11 +14,19 @@ const CasinoView = () => {
   return (
     <>
       {viewMode === "read" ? (
-        <DisplayCasinoInfo setViewMode={setViewMode} viewMode={viewMode} setSelectedCasino={setSelectedCasino}/>
+        <DisplayCasinoInfo
+          setViewMode={setViewMode}
+          viewMode={viewMode}
+          setSelectedCasino={setSelectedCasino}
+        />
       ) : viewMode === "create" ? (
         <CreateCasino setViewMode={setViewMode} viewMode={viewMode} />
       ) : (
-        <EditCasino setViewMode={setViewMode} viewMode={viewMode} selectedCasino={selectedCasino}/>
+        <EditCasino
+          setViewMode={setViewMode}
+          viewMode={viewMode}
+          selectedCasino={selectedCasino}
+        />
       )}
     </>
   );

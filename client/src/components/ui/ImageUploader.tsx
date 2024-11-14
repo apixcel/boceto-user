@@ -1,3 +1,4 @@
+import { trimText } from "@/utils/trimText";
 import { useState } from "react";
 import CrossIcon from "../icons/CrossIcon";
 import UploadIcon from "../icons/UploadIcon";
@@ -52,7 +53,7 @@ const ImageUploader: React.FC<IProps> = ({
           className="flex items-center justify-start gap-[8px]"
         >
           <p className="py-[9px] border-[1px] w-full border-[#979797] bg-[#cfcfcf66] rounded-[6px] center overflow-hidden">
-            {name}
+            {trimText(name, 25)}
           </p>
           <button
             onClick={() => handleRemoveFile(i)}

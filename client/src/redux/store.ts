@@ -1,5 +1,6 @@
 import authReducer from "@/redux/feature/auth/auth.slice";
 import { configureStore } from "@reduxjs/toolkit";
+import frontViewReducer from "./feature/frontView/frontView.slice";
 import {
   FLUSH,
   PAUSE,
@@ -24,6 +25,7 @@ const store = configureStore({
   reducer: {
     [api.reducerPath]: api.reducer,
     auth: persistAuthReducer,
+    frontView: frontViewReducer
   },
 
   middleware: (getDefaultMiddleware) =>

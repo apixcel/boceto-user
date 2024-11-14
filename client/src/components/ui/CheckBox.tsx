@@ -10,7 +10,7 @@ interface IProps {
 }
 
 const CheckBox: React.FC<IProps> = ({ items, limit, onChange, className }) => {
-  const [checked, setChecked] = useState<string[]>([]);
+  const [checked, setChecked] = useState<string[]>([items[0]]);
   const handleCheck = (item: string) => {
     if (checked.length >= limit) {
       const items = [...checked];

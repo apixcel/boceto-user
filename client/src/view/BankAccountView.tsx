@@ -8,7 +8,7 @@ import {
   useGetBankInfoQuery,
 } from "@/redux/feature/bank/bank.api";
 import Loader from "@/utils/Loader";
-import { Form, Formik, Field } from "formik";
+import { Field, Form, Formik } from "formik";
 import { EditIcon, NotebookIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
@@ -32,7 +32,11 @@ const BankAccountView = () => {
     instruction2: "",
   });
 
-  const { data: bankdata, isSuccess, isLoading } = useGetBankInfoQuery(undefined);
+  const {
+    data: bankdata,
+    isSuccess,
+    isLoading,
+  } = useGetBankInfoQuery(undefined);
   const [bankInfoCreate] = useBankInfoCreateMutation();
   const [bankUpdate] = useBankUpdateMutation();
 
@@ -69,8 +73,10 @@ const BankAccountView = () => {
         const res = await bankUpdate({
           bankAccountId: dataInside?._id,
           bankInfo: {
-            instruction1: values?.instruction1 || dataInside?.instruction1 || "",
-            instruction2: values?.instruction2 || dataInside?.instruction2 || "",
+            instruction1:
+              values?.instruction1 || dataInside?.instruction1 || "",
+            instruction2:
+              values?.instruction2 || dataInside?.instruction2 || "",
             accountHolderName: values?.nombre || dataInside?.nombre || "",
             bank: values?.banco || dataInside?.bank || "",
             cbu: values?.cbu || dataInside?.cbu || "",
@@ -107,6 +113,18 @@ const BankAccountView = () => {
         alias: data?.alias || "",
       });
     }
+
+    if (isSuccess && bankdata?.data?.length === 0) {
+      setFormData({
+        instruction1: "",
+        instruction2: "",
+        nombre: "",
+        banco: "",
+        cbu: "",
+        alias: "",
+      });
+      setIsEditing(true);
+    }
   }, [bankdata, isSuccess]);
 
   if (isLoading) {
@@ -124,62 +142,74 @@ const BankAccountView = () => {
       />
       <div className="mt-[24px]">
         {isEditing ? (
-          <Formik initialValues={formData} onSubmit={handleSubmit}>
-            {({ values, setFieldValue }) => (
-              <Form className="flex flex-col gap-[15px]">
-                <Field
-                  name="instruction1"
-                  render={({ field }: any) => (
-                    <TextEditor
-                      defaultValue={formData.instruction1 || ""}
-                      onChange={(value) =>
-                        setFieldValue("instruction1", value)
-                      }
-                      height={200}
-                    />
-                  )}
-                />
-                <PrimaryInput
-                  name="nombre"
-                  placeholder="XXXXXXXXXXXXXXXXXX"
-                  title="Nombre del titular de una cuenta:"
-                />
-                <PrimaryInput
-                  name="banco"
-                  placeholder="XXXXXXXXXXXXXXXXXX"
-                  title="Banco:"
-                />
-                <PrimaryInput
-                  name="cbu"
-                  placeholder="XXXXXXXXXXXXXXXXXX"
-                  title="CBU:"
-                />
-                <PrimaryInput
-                  name="alias"
-                  placeholder="XXXXXXXXXXXXXXXXXX"
-                  title="Alias:"
-                />
-                <Field
-                  name="instruction2"
-                  render={({ field }: any) => (
-                    <TextEditor
-                      defaultValue={field.value}
-                      onChange={(value) =>
-                        setFieldValue("instruction2", value)
-                      }
-                      height={90}
-                    />
-                  )}
-                />
-                <button
-                  type="submit"
-                  className="mt-4 mx-auto flex bg-primary text-white py-2 px-6 rounded-lg hover:bg-primary/90 text-[24px]"
-                >
-                  Save
-                </button>
-              </Form>
-            )}
-          </Formik>
+          <div>
+            <Formik initialValues={formData} onSubmit={handleSubmit}>
+              {({ values, setFieldValue }) => (
+                <Form className="flex flex-col gap-[15px]">
+                  <Field
+                    name="instruction1"
+                    render={({ field }: any) => (
+                      <TextEditor
+                        defaultValue={formData.instruction1 || ""}
+                        onChange={(value) =>
+                          setFieldValue("instruction1", value)
+                        }
+                        height={200}
+                      />
+                    )}
+                  />
+                  <PrimaryInput
+                    name="nombre"
+                    placeholder="XXXXXXXXXXXXXXXXXX"
+                    title="Nombre del titular de una cuenta:"
+                  />
+                  <PrimaryInput
+                    name="banco"
+                    placeholder="XXXXXXXXXXXXXXXXXX"
+                    title="Banco:"
+                  />
+                  <PrimaryInput
+                    name="cbu"
+                    placeholder="XXXXXXXXXXXXXXXXXX"
+                    title="CBU:"
+                  />
+                  <PrimaryInput
+                    name="alias"
+                    placeholder="XXXXXXXXXXXXXXXXXX"
+                    title="Alias:"
+                  />
+                  <Field
+                    name="instruction2"
+                    render={({ field }: any) => (
+                      <TextEditor
+                        defaultValue={field.value}
+                        onChange={(value) =>
+                          setFieldValue("instruction2", value)
+                        }
+                        height={90}
+                      />
+                    )}
+                  />
+                  <div className="center gap-[25px]">
+                    <button
+                      type="submit"
+                      className="mt-4  flex bg-main text-white py-2 px-6 rounded-lg hover:bg-main/90 text-[24px]"
+                    >
+                      Save
+                    </button>
+                    {isEditing && (
+                      <button
+                        onClick={() => setIsEditing(false)}
+                        className="mt-4 flex bg-primary text-white py-2 px-6 rounded-lg hover:bg-primary/90 text-[24px]"
+                      >
+                        Cancel
+                      </button>
+                    )}
+                  </div>
+                </Form>
+              )}
+            </Formik>
+          </div>
         ) : (
           <div className="flex flex-col gap-[5px] text-[16px]">
             <p>

@@ -70,7 +70,7 @@ const RetiarButtonCustomized = () => {
 
           <div className="z-[100] relative">
             <form
-              className="w-[450px] bg-white rounded-[10px] p-[20px]"
+              className="w-[450px] bg-white rounded-[10px] p-[20px] border-[1px] border-input"
               onSubmit={handleSubmit}
             >
               <h3 className="text-[24px] text-primatyTxt font-[700] tracking-[-0.114px]">
@@ -100,10 +100,7 @@ const RetiarButtonCustomized = () => {
 
       {/* Save Button */}
       {!editValue && (
-        <button
-          className="buttonStyle"
-          onClick={handleSave}
-        >
+        <button className="buttonStyle" onClick={handleSave}>
           Save Changes
         </button>
       )}

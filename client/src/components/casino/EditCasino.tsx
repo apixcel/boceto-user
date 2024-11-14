@@ -4,9 +4,10 @@ import { IChildProps } from "@/view/CasinoView";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import React from "react";
 import { ImSpinner11 } from "react-icons/im";
+import { IoArrowBackOutline } from "react-icons/io5";
 import { toast } from "sonner";
 import * as Yup from "yup";
-// Define the validation schema
+
 const validationSchema = Yup.object({
   name: Yup.string()
     .min(3, "* Casino name must be at least 3 characters")
@@ -53,7 +54,15 @@ const EditCasinot: React.FC<IProps> = ({ setViewMode, selectedCasino }) => {
     <>
       <div className="w-full h-full center">
         <div className="bg-white rounded-[15px] w-[550px] p-[15px]">
-          <h4 className="text-[25px] font-[700]">Update your Casino</h4>
+          <button
+            onClick={() => setViewMode("read")}
+            className="flex items-center gap-[5px] font-[700]"
+          >
+            <IoArrowBackOutline /> Go back
+          </button>
+          <h4 className="text-[25px] font-[700] mt-[10px]">
+            Update your Casino
+          </h4>
           <p>Update your casino name</p>
           <Formik
             initialValues={{ name: selectedCasino?.name || "" }}

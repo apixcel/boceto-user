@@ -8,7 +8,7 @@ const PrimaryBannerSelector = () => {
     <div className="w-full justify-start items-center flex gap-[130px] pt-[26px] pb-[57px] border-b-[1px] border-[#BBBBBB] flex-wrap">
       <div className="flex flex-col gap-[15px]">
         <h3 className="text-[24px] text-primatyTxt font-[700] tracking-[-0.114px]">
-          Botón Superior
+          Banner Principal
         </h3>
         <div>
           <p className="text-secondaryTxt text-[15.25px] font-[600]">
