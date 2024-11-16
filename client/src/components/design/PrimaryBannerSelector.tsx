@@ -1,8 +1,11 @@
+import { setFrontViewValue } from "@/redux/feature/frontView/frontView.slice";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 import ImageUploader from "../ui/ImageUploader";
 
 const PrimaryBannerSelector = () => {
   const [files, setFiles] = useState<File[]>([]);
+  const dispatch = useDispatch();
 
   return (
     <div className="w-full justify-start items-center flex gap-[130px] pt-[26px] pb-[57px] border-b-[1px] border-[#BBBBBB] flex-wrap">
@@ -16,6 +19,9 @@ const PrimaryBannerSelector = () => {
           </p>
           <ImageUploader
             id="bannerPrimary"
+            onSave={(urls) =>
+              dispatch(setFrontViewValue({ primaryBannerImg: urls }))
+            }
             limit={2}
             onUploadChange={(itemFiles) => setFiles(itemFiles)}
           />

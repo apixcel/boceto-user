@@ -5,14 +5,15 @@ const initialState: IFrontView = {
   background: {
     type: "image",
     image: "",
+    color: "",
   },
   logo: "",
   primaryBannerImg: [],
   secondaryBannerImg: [],
   topButton: {
-    text: "",
+    text: "CASINO",
     link: "",
-    color: "",
+    color: "#1dac00",
   },
   whatsappStatus: false,
 };

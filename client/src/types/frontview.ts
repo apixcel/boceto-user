@@ -9,7 +9,7 @@ export interface IFrontView {
     color: string;
   };
   background: {
-    type: string;
+    type: "image" | "color";
     image?: string;
     color?: string;
   };

@@ -1,3 +1,4 @@
+import { setFrontViewValue } from "@/redux/feature/frontView/frontView.slice";
 import { useAppDispatch } from "@/redux/hooks";
 import { useState } from "react";
 import ImageUploader from "../ui/ImageUploader";
@@ -5,7 +6,6 @@ import ImageUploader from "../ui/ImageUploader";
 const LogoSelector = () => {
   const [files, setFiles] = useState<File[]>([]);
   const dispatch = useAppDispatch();
-
   return (
     <div className="w-full justify-start items-center flex gap-[130px] pt-[26px] pb-[57px] border-b-[1px] border-[#BBBBBB] flex-wrap">
       <div className="flex flex-col gap-[15px]">
@@ -17,7 +17,9 @@ const LogoSelector = () => {
             Imagen actual
           </p>
           <ImageUploader
-            onSave={(urls) => urls}
+            onSave={(urls) =>
+              dispatch(setFrontViewValue({ logo: urls[0] || "" }))
+            }
             id="logoSelector"
             limit={1}
             onUploadChange={(itemFiles) => {

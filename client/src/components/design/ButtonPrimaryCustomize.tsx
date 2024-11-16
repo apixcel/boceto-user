@@ -1,23 +1,36 @@
+import { setFrontViewValue } from "@/redux/feature/frontView/frontView.slice";
+import { useAppDispatch } from "@/redux/hooks";
 import { useState } from "react";
+import { toast } from "sonner";
 import LinkIcon from "../icons/LinkIcon";
 import ColorPicker from "../ui/ColorPicker";
 const ButtonPrimaryCustomize = () => {
   const [btnItem, setText] = useState({
     text: "CASINO",
-    href: "",
+    link: "",
     color: "#1DAC00",
   });
-  const [editValue, setEditValue] = useState<"text" | "href" | "">("");
+
+  const [editValue, setEditValue] = useState<"text" | "link" | "">("");
+  const dispatch = useAppDispatch();
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!editValue) return;
+
     const form = e.target as HTMLFormElement;
     const value = form[editValue].value;
-
+    if (editValue == "link") {
+      const urlRegex =
+        /^(https?:\/\/)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(:\d+)?(\/.*)?$/;
+      if (!urlRegex.test(value)) {
+        return toast.error("Please enter a valid URL");
+      }
+    }
     const newItem = { ...btnItem, [editValue]: value };
     setText(newItem);
     setEditValue("");
+    dispatch(setFrontViewValue({ topButton: newItem }));
   };
 
   return (
@@ -44,14 +57,18 @@ const ButtonPrimaryCustomize = () => {
             </button>
             <button
               className="w-full btnPrimary"
-              onClick={() => setEditValue("href")}
+              onClick={() => setEditValue("link")}
             >
               <LinkIcon /> Editar link
             </button>
           </div>
 
           <ColorPicker
-            onChange={(color) => setText({ ...btnItem, color })}
+            onChange={(color) => {
+              const values = { ...btnItem, color };
+              setText(values);
+              dispatch(setFrontViewValue({ topButton: values }));
+            }}
             title="Editar color botón"
           />
         </div>
@@ -70,7 +87,7 @@ const ButtonPrimaryCustomize = () => {
               onSubmit={handleSubmit}
             >
               <h3 className="text-[24px] text-primatyTxt font-[700] tracking-[-0.114px]">
-                {editValue === "href"
+                {editValue === "link"
                   ? "Link do botão Editar"
                   : "Editar texto do botão"}
               </h3>
