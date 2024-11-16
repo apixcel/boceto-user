@@ -9,6 +9,13 @@ router.get(
   "/get/:casinoId",
   withdrawElementController.getWithdrawElementByCasinoId
 );
+
+router.get(
+  "/get-owner",
+  authMiddleWere.isAuthenticateUser,
+  authMiddleWere.authorizeRoles("user"),
+  withdrawElementController.getWithdrawElementByOwener
+);
 router.post(
   "/create",
   validSchema(WithdrawEelementValidationSchema.create),

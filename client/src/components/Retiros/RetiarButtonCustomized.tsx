@@ -1,28 +1,48 @@
-import React, { useState } from "react";
+import { IWithdrawButton } from "@/types/withdrawEelement";
+import React, { useEffect, useState } from "react";
+import { toast } from "sonner";
 import LinkIcon from "../icons/LinkIcon";
 import ColorPicker from "../ui/ColorPicker";
+interface IProps {
+  onChange: (item: IWithdrawButton) => void;
+  defaultValue?: IWithdrawButton;
+}
+const RetiarButtonCustomized: React.FC<IProps> = ({
+  onChange,
+  defaultValue,
+}) => {
+  console.log({ defaultValue });
 
-const RetiarButtonCustomized = () => {
-  const [btnItem, setText] = useState({
-    text: "¿Querés retirar?",
-    href: "",
-    color: "#1DAC00",
-  });
-  const [editValue, setEditValue] = useState<"text" | "href" | "">("");
+  const [btnItem, setText] = useState<IWithdrawButton>(
+    defaultValue || {
+      text: "¿Querés retirar?",
+      link: "",
+      color: "#1DAC00",
+    }
+  );
+  const [editValue, setEditValue] = useState<"text" | "link" | "">("");
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!editValue) return;
+
     const form = e.target as HTMLFormElement;
     const value = form[editValue].value;
+    if (editValue == "link") {
+      const urlRegex =
+        /^(https?:\/\/)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(:\d+)?(\/.*)?$/;
+      if (!urlRegex.test(value)) {
+        return toast.error("Please enter a valid URL");
+      }
+    }
     const newItem = { ...btnItem, [editValue]: value };
     setText(newItem);
     setEditValue("");
   };
 
-  const handleSave = () => {
-    console.log("Saved Button State:", btnItem);
-  };
+  useEffect(() => {
+    onChange(btnItem);
+  }, [btnItem]);
 
   return (
     <div className="pt-[16px] pb-[34px]">
@@ -48,7 +68,7 @@ const RetiarButtonCustomized = () => {
             </button>
             <button
               className="w-full btnPrimary"
-              onClick={() => setEditValue("href")}
+              onClick={() => setEditValue("link")}
             >
               <LinkIcon /> Editar link
             </button>
@@ -74,7 +94,7 @@ const RetiarButtonCustomized = () => {
               onSubmit={handleSubmit}
             >
               <h3 className="text-[24px] text-primatyTxt font-[700] tracking-[-0.114px]">
-                {editValue === "href"
+                {editValue === "link"
                   ? "Link do botão Editar"
                   : "Editar texto do botão"}
               </h3>
@@ -96,13 +116,6 @@ const RetiarButtonCustomized = () => {
         </div>
       ) : (
         ""
-      )}
-
-      {/* Save Button */}
-      {!editValue && (
-        <button className="buttonStyle" onClick={handleSave}>
-          Save Changes
-        </button>
       )}
     </div>
   );

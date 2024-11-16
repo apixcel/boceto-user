@@ -29,7 +29,21 @@ const getWithdrawElementByCasinoId = catchAsyncError(async (req, res) => {
   if (!casino) {
     throw new AppError(404, "Casino not found for this user");
   }
-  const result = await WithdrawElement.find({ casino: casino._id });
+  const result = await WithdrawElement.findOne({ casino: casino._id });
+  sendResponse(res, {
+    success: true,
+    statusCode: 200,
+    data: result,
+    message: "Withdraw element fetched successfully",
+  });
+});
+const getWithdrawElementByOwener = catchAsyncError(async (req, res) => {
+  const user = req.user!;
+  const casino = await Casino.findOne({ owner: user._id });
+  if (!casino) {
+    throw new AppError(404, "Casino not found for this user");
+  }
+  const result = await WithdrawElement.findOne({ casino: casino._id });
   sendResponse(res, {
     success: true,
     statusCode: 200,
@@ -38,6 +52,10 @@ const getWithdrawElementByCasinoId = catchAsyncError(async (req, res) => {
   });
 });
 
-const withdrawElementController = { createWithdrawElement, getWithdrawElementByCasinoId };
+const withdrawElementController = {
+  createWithdrawElement,
+  getWithdrawElementByCasinoId,
+  getWithdrawElementByOwener,
+};
 
 export default withdrawElementController;
