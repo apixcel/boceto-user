@@ -52,10 +52,30 @@ const getWithdrawElementByOwener = catchAsyncError(async (req, res) => {
   });
 });
 
+const updateWithdrawElement = catchAsyncError(async (req, res) => {
+  const user = req.user!;
+  const body = req.body;
+  const casino = await Casino.findOne({ owner: user._id });
+  if (!casino) {
+    throw new AppError(404, "Casino not found for this user");
+  }
+  const result = await WithdrawElement.findOneAndUpdate(
+    { casino: casino._id },
+    { ...body }
+  );
+  sendResponse(res, {
+    success: true,
+    statusCode: 200,
+    data: result,
+    message: "Withdraw element updated successfully",
+  });
+});
+
 const withdrawElementController = {
   createWithdrawElement,
   getWithdrawElementByCasinoId,
   getWithdrawElementByOwener,
+  updateWithdrawElement,
 };
 
 export default withdrawElementController;

@@ -23,5 +23,12 @@ router.post(
   authMiddleWere.authorizeRoles("user"),
   withdrawElementController.createWithdrawElement
 );
+router.patch(
+  "/update",
+
+  authMiddleWere.isAuthenticateUser,
+  authMiddleWere.authorizeRoles("user"),
+  withdrawElementController.updateWithdrawElement
+);
 const withdrawElementRoute = router;
 export default withdrawElementRoute;

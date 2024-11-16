@@ -5,6 +5,7 @@ import SectionHeading from "@/components/ui/SectionHeading";
 import {
   useCreateWithdrawElementMutation,
   useGetWithdrawElementByOwnerQuery,
+  useUpdateWithdrawElementMutation,
 } from "@/redux/feature/withdrawEelement/withdrawEelement.api";
 import { IWithdrawElement } from "@/types/withdrawEelement";
 import Loader from "@/utils/Loader";
@@ -17,7 +18,8 @@ type TRetirosPayload = Pick<IWithdrawElement, "button" | "facts">;
 
 const RetirosView = () => {
   const { data, isLoading } = useGetWithdrawElementByOwnerQuery(undefined);
-
+  const [updateRetiros, { isLoading: isUpdating }] =
+    useUpdateWithdrawElementMutation(undefined);
   const [createRetiros, { isLoading: isCreating }] =
     useCreateWithdrawElementMutation();
 
@@ -43,7 +45,9 @@ const RetirosView = () => {
 
   const handleSubmit = async () => {
     try {
-      const res = await createRetiros(payload);
+      const res = data?.data
+        ? await updateRetiros(payload)
+        : await createRetiros(payload);
       const error = res.error as any;
       if (error) {
         return toast.error(
@@ -101,7 +105,7 @@ const RetirosView = () => {
         onClick={handleSubmit}
         className="buttonStyle disabled:opacity-[0.5] disabled:cursor-not-allowed"
       >
-        {isCreating ? <CgSpinner className="animate-spin" /> : <SaveIcon />}
+        {isCreating||isUpdating ? <CgSpinner className="animate-spin" /> : <SaveIcon />}
         Save Changes
       </button>
     </>

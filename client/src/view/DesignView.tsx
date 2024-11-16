@@ -30,7 +30,7 @@ const DesignView = () => {
       <PrimaryBannerSelector />
       <SecondaryBannerSelector />
       <ButtonPrimaryCustomize />
-      <Background background={data?.data?.background} />
+      <Background />
       <ToggleWhatsapp />
 
       <DesignFormError />

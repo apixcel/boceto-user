@@ -166,3 +166,23 @@ body {
     @apply py-[10px] bg-[#3c8dbc] text-white rounded-[9px] mt-[20px] w-fit px-10 flex items-center gap-3;
   }
 }
+
+.shake {
+  animation: shake 0.3s ease;
+}
+
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+
+  25%,
+  75% {
+    transform: translateX(-10px);
+  }
+
+  50% {
+    transform: translateX(10px);
+  }
+}

@@ -14,6 +14,17 @@ const withDrawElementApi = api.injectEndpoints({
       }),
       invalidatesTags: ["withdrawEelement"],
     }),
+    updateWithdrawElement: builder.mutation<
+      { data: string },
+      Partial<IWithdrawElement>
+    >({
+      query: (form) => ({
+        url: `/withdraw-element/update`,
+        method: "PATCH",
+        body: form,
+      }),
+      invalidatesTags: ["withdrawEelement"],
+    }),
     getWithdrawElementByOwner: builder.query<
       { data: IWithdrawElement },
       undefined
@@ -30,4 +41,5 @@ const withDrawElementApi = api.injectEndpoints({
 export const {
   useCreateWithdrawElementMutation,
   useGetWithdrawElementByOwnerQuery,
+  useUpdateWithdrawElementMutation,
 } = withDrawElementApi;

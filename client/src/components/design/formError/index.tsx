@@ -9,7 +9,7 @@ interface IProps {
 
 const DisplayValidation: React.FC<IProps> = ({ isError, message }) => {
   return (
-    <p className={isError ? errorClass : okClass}>
+    <p className={isError ? `${errorClass} shake` : okClass}>
       {isError ? <RxCross2 /> : <MdDone />} {message}
     </p>
   );
