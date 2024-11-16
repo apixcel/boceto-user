@@ -21,7 +21,12 @@ router.patch(
   frontViewController.updateFrontView
 );
 router.get("/get/:casinoId", frontViewController.retriveFrontviewByeCasinoId);
-
+router.get(
+  "/get-owner",
+  authMiddleWere.isAuthenticateUser,
+  authMiddleWere.authorizeRoles("user"),
+  frontViewController.retriveFrontviewByOwner
+);
 const frontViewRoute = router;
 
 export default frontViewRoute;

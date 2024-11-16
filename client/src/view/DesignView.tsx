@@ -7,8 +7,22 @@ import SaveDesign from "@/components/design/SaveDesign";
 import SecondaryBannerSelector from "@/components/design/SecondaryBannerSelector";
 import ToggleWhatsapp from "@/components/design/ToggleWhatsapp";
 import SectionHeading from "@/components/ui/SectionHeading";
+import { useGetFrontViewByOwnerQuery } from "@/redux/feature/frontView/frontView.api";
+import { setFrontViewValue } from "@/redux/feature/frontView/frontView.slice";
+import { useAppDispatch } from "@/redux/hooks";
+import Loader from "@/utils/Loader";
+import { useEffect } from "react";
 
 const DesignView = () => {
+  const { data, isLoading } = useGetFrontViewByOwnerQuery(undefined);
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(setFrontViewValue(data?.data || {}));
+  }, [data, dispatch]);
+  if (isLoading) {
+    return <Loader className="!h-[100vh]" />;
+  }
   return (
     <>
       <SectionHeading title="Diseño" />
@@ -16,10 +30,11 @@ const DesignView = () => {
       <PrimaryBannerSelector />
       <SecondaryBannerSelector />
       <ButtonPrimaryCustomize />
-      <Background />
-      <ToggleWhatsapp />
-      <DesignFormError />
-      <SaveDesign />
+      <Background background={data?.data?.background} />
+      <ToggleWhatsapp whatsappStatus={data?.data?.whatsappStatus || false} />
+
+      {data?.data ? "" : <DesignFormError />}
+      <SaveDesign isNewDesign={Boolean(data?.data)} />
     </>
   );
 };

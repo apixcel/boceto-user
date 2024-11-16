@@ -1,11 +1,12 @@
 import { setFrontViewValue } from "@/redux/feature/frontView/frontView.slice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { IFrontViewBackground } from "@/types/frontview";
 import { useState } from "react";
 import CheckBox from "../ui/CheckBox";
 import ColorPicker from "../ui/ColorPicker";
 import ImageUploader from "../ui/ImageUploader";
 
-const Background = () => {
+const Background = ({ background }: { background?: IFrontViewBackground }) => {
   const [, setFiles] = useState<File[]>([]);
   const { color, type } = useAppSelector((state) => state.frontView.background);
   const dispatch = useAppDispatch();

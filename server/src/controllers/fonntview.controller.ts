@@ -34,6 +34,26 @@ const createFrontView = catchAsyncError(async (req, res) => {
   });
 });
 
+const retriveFrontviewByOwner = catchAsyncError(async (req, res) => {
+  const user = req.user!;
+  const casino = await Casino.findOne({ owner: user._id });
+
+  if (!casino) {
+    throw new AppError(404, "Casino not found for this user");
+  }
+
+  const frontView = await FrontView.findOne({ casino: casino._id }).populate(
+    "background topButton"
+  );
+
+  sendResponse(res, {
+    success: true,
+    statusCode: 200,
+    data: frontView,
+    message: "Font view retrieved successfully",
+  });
+});
+
 const updateFrontView = catchAsyncError(async (req, res) => {
   const user = req.user!;
   const casino = await Casino.findOne({ owner: user._id });
@@ -99,7 +119,7 @@ const retriveFrontviewByeCasinoId = catchAsyncError(async (req, res) => {
 const frontViewController = {
   createFrontView,
   retriveFrontviewByeCasinoId,
-  updateFrontView,
+  updateFrontView,retriveFrontviewByOwner
 };
 
 export default frontViewController;

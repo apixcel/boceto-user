@@ -1,5 +1,5 @@
 import { setFrontViewValue } from "@/redux/feature/frontView/frontView.slice";
-import { useAppDispatch } from "@/redux/hooks";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useState } from "react";
 import { toast } from "sonner";
 import LinkIcon from "../icons/LinkIcon";
@@ -10,6 +10,8 @@ const ButtonPrimaryCustomize = () => {
     link: "",
     color: "#1DAC00",
   });
+
+  const { topButton } = useAppSelector((state) => state.frontView);
 
   const [editValue, setEditValue] = useState<"text" | "link" | "">("");
   const dispatch = useAppDispatch();
@@ -43,9 +45,9 @@ const ButtonPrimaryCustomize = () => {
         <div className="flex items-center gap-[23px]  flex-wrap">
           <div
             className={`min-w-[362px] py-[9px] rounded-[10px] center px-[15px]`}
-            style={{ backgroundColor: btnItem.color }}
+            style={{ backgroundColor: topButton.color }}
           >
-            <p className="text-white text-[38px]">{btnItem.text}</p>
+            <p className="text-white text-[38px]">{topButton.text}</p>
           </div>
 
           <div className="w-[274px] flex flex-col gap-[7px]">
@@ -96,7 +98,7 @@ const ButtonPrimaryCustomize = () => {
                 className="w-full h-[40px] rounded-[8px] border-[1px] border-[#BBBBBB] px-[10px] focus:outline-none mt-[20px]"
                 placeholder="agregar valor"
                 name={editValue}
-                defaultValue={btnItem[editValue]}
+                defaultValue={topButton[editValue]}
               />
               <button className="w-full py-[10px] bg-primary text-white rounded-[9px] mt-[10px]">
                 Update

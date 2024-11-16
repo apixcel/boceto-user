@@ -3,10 +3,11 @@ import { useState } from "react";
 interface IProps {
   className?: string;
   onChange?: (value: boolean) => void;
+  defaultValue?: boolean;
 }
 
-const Toggle: React.FC<IProps> = ({ className, onChange }) => {
-  const [active, setActive] = useState(false);
+const Toggle: React.FC<IProps> = ({ className, onChange, defaultValue }) => {
+  const [active, setActive] = useState(Boolean(defaultValue));
 
   return (
     <div

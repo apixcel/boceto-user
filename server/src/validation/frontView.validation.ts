@@ -19,10 +19,7 @@ const create = z.object({
   background: z
     .object({
       type: z.enum(["image", "color"]),
-      image: z
-        .string()
-        .url({ message: "Background image must be a valid URL" })
-        .optional(),
+      image: z.string().optional(),
       color: z.string().optional(),
     })
     .refine(
@@ -43,7 +40,8 @@ const create = z.object({
     ),
 });
 
-const update = z.object({
+const update = z
+  .object({
     logo: z.string().url({ message: "Logo must be a valid URL" }).optional(),
     primaryBannerImg: z
       .array(
