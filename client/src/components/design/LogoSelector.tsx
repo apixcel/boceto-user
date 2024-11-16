@@ -1,8 +1,10 @@
+import { useAppDispatch } from "@/redux/hooks";
 import { useState } from "react";
 import ImageUploader from "../ui/ImageUploader";
 
 const LogoSelector = () => {
   const [files, setFiles] = useState<File[]>([]);
+  const dispatch = useAppDispatch();
 
   return (
     <div className="w-full justify-start items-center flex gap-[130px] pt-[26px] pb-[57px] border-b-[1px] border-[#BBBBBB] flex-wrap">
@@ -15,11 +17,13 @@ const LogoSelector = () => {
             Imagen actual
           </p>
           <ImageUploader
+            onSave={(urls) => urls}
             id="logoSelector"
             limit={1}
-            onUploadChange={(itemFiles) => setFiles(itemFiles)}
+            onUploadChange={(itemFiles) => {
+              setFiles(itemFiles);
+            }}
           />
-          <button>Save</button>
         </div>
       </div>
       <div className="flex items-start justify-start gap-[10px]">

@@ -3,6 +3,7 @@ import bankAccountRoute from "./bankAccount.route";
 import billingRoute from "./billing.route";
 import casinoRoute from "./casino.route";
 import frontViewRoute from "./frontview.route";
+import uploadRoute from "./upload.route";
 import authRoute from "./user.route";
 import withdrawElementRoute from "./withdrawEelement.route";
 const router = Router();
@@ -23,6 +24,7 @@ const moduleRoutes = [
     path: "/billing",
     route: billingRoute,
   },
+
   {
     path: "/withdraw-element",
     route: withdrawElementRoute,
@@ -30,6 +32,10 @@ const moduleRoutes = [
   {
     path: "/casino",
     route: casinoRoute,
+  },
+  {
+    path: "/upload",
+    route: uploadRoute,
   },
 ];
 
