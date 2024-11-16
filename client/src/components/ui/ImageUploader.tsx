@@ -10,14 +10,14 @@ interface IProps {
   className?: string;
   limit: number;
   onUploadChange?: (files: File[]) => void;
-  onSave?: (ulrs: string[]) => void;
+  onSaveChange?: (ulrs: string[]) => void;
 }
 
 const ImageUploader: React.FC<IProps> = ({
   id,
   className,
   onUploadChange,
-  onSave,
+  onSaveChange,
   limit,
 }) => {
   const [files, setFiles] = useState<File[]>([]);
@@ -71,7 +71,9 @@ const ImageUploader: React.FC<IProps> = ({
       setFiles([]);
       setError(null);
       setSuccess("Images uploaded successfully");
-      onSave && onSave(data?.data || [""]);
+
+      const urls = data?.data || [];
+      onSaveChange && onSaveChange(urls);
     } catch (error) {
       setError("Something went wrong while making this request");
     }
@@ -119,14 +121,14 @@ const ImageUploader: React.FC<IProps> = ({
         />
       </div>
       <div className="mt-[15px]">
-        {error && onSave && (
+        {error && onSaveChange && (
           <p className="text-[#FF0000] text-[14px]">{error}</p>
         )}
-        {success && onSave && (
+        {success && onSaveChange && (
           <p className="text-[#1bbb53] text-[14px] font-[600]">{success}</p>
         )}
       </div>
-      {files.length && onSave ? (
+      {files.length && onSaveChange ? (
         <button
           onClick={handleSaveImages}
           className="buttonStyle disabled:opacity-[0.6]"

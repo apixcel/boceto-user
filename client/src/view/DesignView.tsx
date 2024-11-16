@@ -31,10 +31,10 @@ const DesignView = () => {
       <SecondaryBannerSelector />
       <ButtonPrimaryCustomize />
       <Background background={data?.data?.background} />
-      <ToggleWhatsapp whatsappStatus={data?.data?.whatsappStatus || false} />
+      <ToggleWhatsapp />
 
-      {data?.data ? "" : <DesignFormError />}
-      <SaveDesign isNewDesign={Boolean(data?.data)} />
+      <DesignFormError />
+      <SaveDesign isNewDesign={!data?.data} />
     </>
   );
 };

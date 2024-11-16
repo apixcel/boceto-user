@@ -19,8 +19,22 @@ const frontViewApi = api.injectEndpoints({
       }),
       invalidatesTags: ["frontview"],
     }),
+    updateFrontViewBy: builder.mutation<
+      { data: IFrontView },
+      Partial<IFrontView>
+    >({
+      query: (payload) => ({
+        url: `/frontview/update`,
+        method: "PATCH",
+        body: payload,
+      }),
+      invalidatesTags: ["frontview"],
+    }),
   }),
 });
 
-export const { useGetFrontViewByOwnerQuery, useCreateFronteViewMutation } =
-  frontViewApi;
+export const {
+  useGetFrontViewByOwnerQuery,
+  useCreateFronteViewMutation,
+  useUpdateFrontViewByMutation,
+} = frontViewApi;
